@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convite de Aniversário</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] font-sans">
+  <!-- Cabeçalho -->
+  <header class="bg-[var(--primary)] text-white py-6 px-4 text-center">
+    <h1 class="text-2xl font-bold fade-in-up">🎉 João & Surelly</h1>
+    <p class="mt-1 text-sm fade-in-up">Nosso aniversário está chegando!</p>
+  </header>
+
+  <main class="px-4 py-6 space-y-6 max-w-md mx-auto">
+    <!-- Contador -->
+    <div id="countdown" class="text-center text-lg font-semibold fade-in-up"></div>
+
+    <!-- Carrossel de Imagens -->
+    <section>
+      <h2 class="text-lg font-semibold text-center mb-4 fade-in-up">Alguns Momentos</h2>
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+          <!-- Slides gerados via JS -->
+        </div>
+        <div class="swiper-pagination mt-2"></div>
+      </div>
+    </section>
+
+    <!-- Informações da Festa -->
+    <section class="bg-white shadow-md rounded-xl p-4 text-center space-y-2 fade-in-up">
+      <h2 class="text-xl font-semibold text-[var(--primary)]">📅 08 de Junho - 19h</h2>
+      <p>📍 Rua General Osório, 1081 - Cascavel/PR</p>
+      <p>Esperamos você para uma noite incrível 💜</p>
+    </section>
+
+    <!-- Formulário -->
+    <section class="space-y-2">
+      <h2 class="text-lg font-semibold text-center fade-in-up">Confirme sua presença</h2>
+      <form id="form-confirmacao" class="space-y-4 bg-white p-4 rounded-xl shadow-md">
+        <div>
+          <label class="block text-sm font-medium mb-1">Nome</label>
+          <input
+            type="text"
+            name="entry.1560410878"
+            required
+            placeholder="Digite seu nome"
+            class="w-full border border-gray-300 rounded-xl px-3 py-2"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Prefere Pizza ou pedir outra coisa?</label>
+          <select
+            name="entry.1498978415"
+            required
+            class="w-full border border-gray-300 rounded-xl px-3 py-2"
+          >
+            <option value="">Selecione uma opção</option>
+            <option value="Pizza">Pizza</option>
+            <option value="Cachorro Quente de panelasso">Cachorro Quente de panelasso</option>
+            <option value="Outros">Outros</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Vai levar algo a mais?</label>
+          <div class="space-y-1">
+            <label class="flex items-center gap-2">
+              <input type="radio" name="entry.157932957" value="Sim" required />
+              <span>Sim</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="radio" name="entry.157932957" value="Não" required />
+              <span>Não</span>
+            </label>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-[var(--primary)] text-white px-4 py-2 rounded-xl hover:opacity-90 w-full"
+        >
+          Confirmar Presença
+        </button>
+        <p id="mensagem" class="text-center text-green-600 font-medium hidden mt-2 emoji-bounce">
+          Obrigado por confirmar sua presença! 🎉
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="text-center text-xs py-6 text-[var(--foreground)] fade-in-up">
+    Com amor, João & Surelly ❤️
+  </footer>
+
+  <!-- Botão flutuante Google Maps -->
+  <a
+    href="https://www.google.com/maps?q=Rua+General+Osório+1081+Cascavel"
+    target="_blank"
+    class="fixed bottom-4 right-4 bg-[var(--primary)] text-white px-4 py-2 rounded-full shadow-lg"
+  >
+    📍 Como chegar
+  </a>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script>
+    // Carrossel
+    const swiperWrapper = document.querySelector(".swiper-wrapper");
+    for (let i = 1; i <= 9; i++) {
+      const slide = document.createElement("div");
+      slide.className = "swiper-slide";
+      slide.innerHTML = `
+        <img
+          src="imagens/carousel-${i}.jpg"
+          alt="Foto ${i}"
+          class="rounded-xl shadow-lg w-[90%] h-60 object-cover mx-auto"
+        />
+      `;
+      swiperWrapper.appendChild(slide);
+    }
+    new Swiper(".mySwiper", {
+      loop: true,
+      spaceBetween: 16,
+      slidesPerView: 1.2,
+      centeredSlides: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        640: { slidesPerView: 2.2 },
+      },
+    });
+
+    // Formulário com confete
+    const form = document.getElementById("form-confirmacao");
+    const mensagem = document.getElementById("mensagem");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      try {
+        await fetch(
+          "https://docs.google.com/forms/d/e/1FAIpQLSeMAiUrBqitelvsId3mAPvVUX-X10wKbmvr-PA76SJFzHBWhQ/formResponse",
+          {
+            method: "POST",
+            mode: "no-cors",
+            body: formData,
+          }
+        );
+        form.reset();
+        mensagem.classList.remove("hidden");
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+      } catch (error) {
+        alert("Erro ao enviar. Tente novamente.");
+      }
+    });
+
+    // Contador regressivo
+    const targetDate = new Date("2025-06-08T19:00:00");
+    setInterval(() => {
+      const now = new Date();
+      const diff = targetDate - now;
+      const el = document.getElementById("countdown");
+      if (diff <= 0) return (el.textContent = "🎉 É hoje! 🎉");
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const min = Math.floor((diff / (1000 * 60)) % 60);
+      el.textContent = `Faltam ${days}d ${hrs}h ${min}min para a festa!`;
+    }, 1000);
+  </script>
+</body>
+</html>

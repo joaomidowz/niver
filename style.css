@@ -1,0 +1,24 @@
+:root {
+  --background: #e8e8f9;
+  --foreground: #171717;
+  --primary: #524be0;
+  --secondary: #e8e8f9;
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.emoji-bounce {
+  animation: bounce 1.4s infinite;
+}
